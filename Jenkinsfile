@@ -1,10 +1,17 @@
+// Defining the pipeline
 pipeline {
+
+    // Agent selection
     agent any
+    // Initiating the trigger to check for SCM every minute
     triggers { 
         pollSCM('* * * * *') 
     }
 
+    // Initializing the pipeling stages 
     stages {
+        // Checkout stage
+        // Checkout to the git repo and master branch 
         stage('Checkout') {
             steps {
                 git branch: "master",
@@ -12,10 +19,12 @@ pipeline {
             }
         }
 
+        // Build stage
+        // Builds the docker image of the web server and update the version number
         stage('Build') {
             steps {
-                // Define tag outside the script block
                 script {
+                    // Defines the tag for build number
                     tag = "sample_web_server:${env.BUILD_NUMBER}"
                     // Build Docker image
                     bat "docker build -t $tag ."
@@ -23,12 +32,17 @@ pipeline {
             }
         }
 
+        // Test stage
+        // Test stage, but no test require for this application
         stage('Test') {
             steps {
                 echo "This is the test stage"
             }
         }
 
+        // Deployment stage
+        // Deploys the docker image for python web server with updated build version
+        // and exposes it at port 5000 for localhost
         stage('Deploy') {
             steps {
                 script {
@@ -41,6 +55,8 @@ pipeline {
         }
     }
 
+    // Checks the final output of the pipeline stages after deployment and 
+    // indicates the final result
     post {
         success {
             echo 'Flask application deployed successfully!'
