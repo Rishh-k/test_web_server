@@ -33,8 +33,8 @@ pipeline {
             steps {
                 script {
                     // Use the tag variable defined earlier
-                    bat "docker stop sample_web_server || true"
-                    bat "docker rm -f sample_web_server || true"
+                    bat "docker stop sample_web_server || exit 0"
+                    bat "docker rm -f sample_web_server || exit 0"
                     bat "docker run -d --name sample_web_server -p 5000:5000 $tag"
                 }
             }
