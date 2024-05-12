@@ -15,7 +15,6 @@ pipeline {
         stage('Build') {
             steps {
                 // Define tag outside the script block
-                def tag
                 script {
                     tag = "my_web_server:${env.BUILD_NUMBER}"
                     // Build Docker image
