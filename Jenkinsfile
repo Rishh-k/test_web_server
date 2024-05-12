@@ -2,7 +2,7 @@ pipeline {
     agent any
     triggers { 
         pollSCM('* * * * *') 
-        }
+    }
 
     stages {
         stage('Checkout') {
@@ -14,9 +14,11 @@ pipeline {
 
         stage('Build') {
             steps {
-                script{
+                // Define tag outside the script block
+                script {
                     def tag = "my_web_server:${env.BUILD_NUMBER}"
-                    docker build -t $tag .
+                    // Build Docker image
+                    bat "docker build -t $tag ."
                 }
             }
         }
@@ -29,10 +31,11 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                script{
-                    docker stop my_web_server
-                    docker rm -f my_web_server
-                    docker run -d --name my_web_server -p 5000:5000 $tag
+                script {
+                    // Use the tag variable defined earlier
+                    bat "docker stop my_web_server || true"
+                    bat "docker rm -f my_web_server || true"
+                    bat "docker run -d --name my_web_server -p 5000:5000 $tag"
                 }
             }
         }
@@ -47,3 +50,4 @@ pipeline {
         }
     }
 }
+
