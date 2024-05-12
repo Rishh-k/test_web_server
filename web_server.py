@@ -5,9 +5,9 @@ app = Flask(__name__)
 def helloworld():
     return "Hello World!"
 
-@app.route("/myinfo")
+@app.route("/info")
 def myinfo():
-    info = "Dev Name: Rishabh"
+    info = "Dev Name: Rishabh Khandelwal"
     return info
 
 @app.route("/submission")

@@ -16,7 +16,7 @@ pipeline {
             steps {
                 // Define tag outside the script block
                 script {
-                    tag = "my_web_server:${env.BUILD_NUMBER}"
+                    tag = "sample_web_server:${env.BUILD_NUMBER}"
                     // Build Docker image
                     bat "docker build -t $tag ."
                 }
@@ -33,9 +33,9 @@ pipeline {
             steps {
                 script {
                     // Use the tag variable defined earlier
-                    bat "docker stop my_web_server || true"
-                    bat "docker rm -f my_web_server || true"
-                    bat "docker run -d --name my_web_server -p 5000:5000 $tag"
+                    bat "docker stop sample_web_server || true"
+                    bat "docker rm -f sample_web_server || true"
+                    bat "docker run -d --name sample_web_server -p 5000:5000 $tag"
                 }
             }
         }
