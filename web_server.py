@@ -7,7 +7,7 @@ def helloworld():
 
 @app.route("/myinfo")
 def myinfo():
-    info = "Dev Name: Rishabh Khandelwal"
+    info = "Dev Name: Rishabh"
     return info
 
 @app.route("/submission")
