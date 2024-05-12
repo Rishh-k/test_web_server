@@ -16,8 +16,7 @@ pipeline {
             steps {
                 script{
                     def tag = "my_web_server:${env.BUILD_NUMBER}"
-                    docker build -t $tag . 
-                    // Skipping push to docker registry
+                    docker build -t $tag .
                 }
             }
         }
