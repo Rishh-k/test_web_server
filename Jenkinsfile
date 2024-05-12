@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    triggers { 
+        pollSCM('* * * * *') 
+        }
 
     stages {
         stage('Checkout') {
@@ -11,7 +14,11 @@ pipeline {
 
         stage('Build') {
             steps {
-                echo "This is the build stage"
+                script{
+                    def tag = "my_web_server:${env.BUILD_NUMBER}"
+                    docker build -t $tag . 
+                    // Skipping push to docker registry
+                }
             }
         }
 
@@ -23,7 +30,11 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                sh 'python web_server.py &'
+                script{
+                    docker stop my_web_server
+                    docker rm -f my_web_server
+                    docker run -d --name my_web_server -p 5000:5000 $tag
+                }
             }
         }
     }
