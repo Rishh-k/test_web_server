@@ -1,5 +1,5 @@
 # Use a Python base image
-FROM python:latest
+FROM python:3.10.10-alpine
 
 # Installing the dependencies in the container
 RUN pip install flask

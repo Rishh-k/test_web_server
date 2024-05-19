@@ -16,6 +16,7 @@ pipeline {
             steps {
                 git branch: "master",
                 url: 'https://github.com/Rishh-k/test_web_server.git'
+                echo "Checkout stage completed"
             }
         }
 
@@ -29,6 +30,7 @@ pipeline {
                     // Build Docker image
                     bat "docker build -t $tag ."
                 }
+                echo "Build stage completed"
             }
         }
 
@@ -51,6 +53,7 @@ pipeline {
                     bat "docker rm -f sample_web_server || exit 0"
                     bat "docker run -d --name sample_web_server -p 5000:5000 $tag"
                 }
+                echo "Deployment stage completed"
             }
         }
     }
@@ -66,4 +69,3 @@ pipeline {
         }
     }
 }
-
